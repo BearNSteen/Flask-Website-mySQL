@@ -1,0 +1,12 @@
+#intermediate table tbody tr {
+    display: none;
+}
+
+#entity {
+    margin-top: 2rem;
+}
+
+h5 {
+    padding-top: 1.25rem;
+    text-decoration: none;
+}

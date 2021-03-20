@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Update Rental - PlayTest</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link rel="stylesheet" href="tables.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/index">PlayTest</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/games">Games</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/consoles">Consoles</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="/rentals">Rentals</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/customers">Customers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+        <main>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Update Rental
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form class="row g-3" action="/update_rental/{{update['rental_ID'|e]}}" method="post">
+                            <input type="hidden" name="rental_id" value="{{update['rental_ID'|e]}}">
+                            <div class="col-md-4">
+                              <label for="customer" class="form-label">Customer</label>
+                              <select id="customer" class="form-select" name="customer">
+                                {% for person in people %}
+                                  {% if update['first_name'] == person['first_name'] %}
+                                  <option selected>{{person['first_name']}} {{person['last_name']}}</option>
+                                  {% else %}
+                                  <option>{{person['first_name']}} {{person['last_name']}}</option>
+                                  {% endif %}
+                                {% endfor %}
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <label for="rent_date" class="form-label">Date Rented</label>
+                              <input type="date" class="form-control" id="rent_date" name="rent_date" value="{{update['rent_date']}}">
+                            </div>
+                            <div class="col-md-4">
+                              <label for="paid" class="form-label">Date Paid</label>
+                              <input type="date" class="form-control" id="paid" name="paid" value="{{update['paid']}}">
+                            </div>
+                            <div class="col-12">
+                              <button type="submit" class="btn btn-primary">Update Rental</button>
+                            </div>
+                          </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="container" id="entity">
+                <h2>Rental to Update</h2>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped table-hover">
+                        <thead>
+                            <tr>
+                              <th scope="col">Customer</th>
+                              <th scope="col">Date Rented</th>
+                              <th scope="col">Date Paid</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr id="{{update['rental_id']}}">
+                                <td>{{update["first_name"]}} {{update["last_name"]}}</td>
+                                <td>{{update["rent_date"]}}</td>
+                                <td>{{update["paid"]}}</td>
+                            </tr>
+                          </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <script src="tables.js"></script>
+    </body>
+</html>

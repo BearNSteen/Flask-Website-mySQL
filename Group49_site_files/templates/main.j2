@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>PlayTest</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link rel="stylesheet" href="tables.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/index">PlayTest</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/games">Games</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/consoles">Consoles</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/rentals">Rentals</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/customers">Customers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+        <main>
+          <div class="container" id="entity">
+            <div class="row">
+              <div class="col align-middle">
+                  <h2>Welcome</h2>
+              </div>
+            </div>
+            <div class="row row-cols-2 row-cols-lg-4 g-4">
+              <div class="col">
+                <a href="/games"><div class="card text-white bg-dark">
+                  <img src="{{url_for('static', filename='games.jpg')}}" class="card-img-top" alt="Games">
+                  <div class="card-body">
+                    <h5 class="card-title">Games</h5>
+                  </div>
+                </div></a>
+              </div>
+              <div class="col">
+                <a href="/consoles"><div class="card text-white bg-dark">
+                  <img src="{{url_for('static', filename='consoles.jpg')}}" class="card-img-top" alt="Consoles">
+                  <div class="card-body">
+                    <h5 class="card-title">Consoles</h5>
+                  </div>
+                </div></a>
+              </div>
+              <div class="col">
+                <a href="/rentals"><div class="card text-white bg-dark">
+                  <img src="{{url_for('static', filename='rentals.jpg')}}" class="card-img-top" alt="Rentals">
+                  <div class="card-body">
+                    <h5 class="card-title">Rentals</h5>
+                  </div>
+                </div></a>
+              </div>
+              <div class="col">
+                <a href="/customers"><div class="card text-white bg-dark">
+                  <img src="{{url_for('static', filename='customers.jpg')}}" class="card-img-top" alt="Customers">
+                  <div class="card-body">
+                    <h5 class="card-title">Customers</h5>
+                  </div>
+                </div></a>
+              </div>
+            </div>
+          </div> 
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <script src="tables.js"></script>
+    </body>
+</html>

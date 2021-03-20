@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Customers - PlayTest</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/tables.css')}}">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/index">PlayTest</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/games">Games</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/consoles">Consoles</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/rentals">Rentals</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="/customers">Customers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+        <main>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Add Customer
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form class="row g-3" action="/add_customer" method="post">
+                            <div class="col-md-6">
+                              <label for="firstName" class="form-label">First Name</label>
+                              <input type="text" class="form-control" id="firstName" name="first_name" placeholder="Jane">
+                            </div>
+                            <div class="col-md-6">
+                              <label for="lastName" class="form-label">Last Name</label>
+                              <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Doe">
+                            </div>
+                            <div class="col-12">
+                              <label for="inputAddress" class="form-label">Street Address</label>
+                              <input type="text" class="form-control" id="inputAddress" name="street" placeholder="1234 Main St">
+                            </div>
+                            <div class="col-md-6">
+                              <label for="inputCity" class="form-label">City</label>
+                              <input type="text" class="form-control" id="inputCity" name="city" placeholder="New City">
+                            </div>
+                            <div class="col-md-4">
+                              <label for="inputState" class="form-label">State</label>
+                              <select id="inputState" class="form-select" name="state">
+                                <option selected>Choose...</option>
+                                {% for st in states %}}
+                                  <option>{{st}}</option>
+                                {% endfor %}}
+                              </select>
+                            </div>
+                            <div class="col-md-2">
+                              <label for="inputZip" class="form-label">Zip</label>
+                              <input type="number" class="form-control" id="inputZip" name="zip_code" placeholder="12345">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="123-456-7890">
+                              </div>
+                            <div class="col-md-4">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="user@site.com">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="bday" class="form-label">Birthday</label>
+                                <input type="date" class="form-control" id="bday" name="birthday" placeholder="MM/DD/YYYY">
+                            </div>
+                            <div class="col-12">
+                              <button type="submit" class="btn btn-primary">Add Customer</button>
+                            </div>
+                          </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      Filter Customers
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form class="row g-3" action="/filter_customers" method="post">
+                        <div class="col-md-6">
+                            <label for="fName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" name="ffname" id="fName" placeholder="Jane">
+                          </div>
+                          <div class="col-md-6">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" name="flname" id="lName" placeholder="Doe">
+                          </div>
+                          <div class="col-12">
+                            <label for="sAddress" class="form-label">Street Address</label>
+                            <input type="text" class="form-control" name="fstreet" id="sAddress" placeholder="1234 Main St">
+                          </div>
+                          <div class="col-md-6">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" name="fcity" id="city" placeholder="New City">
+                          </div>
+                          <div class="col-md-4">
+                            <label for="state" class="form-label">State</label>
+                            <select id="state" name="fstate" class="form-select">
+                              <option selected>Choose...</option>
+                              {% for st in states %}}
+                              <option>{{st}}</option>
+                              {% endfor %}}
+                            </select>
+                          </div>
+                          <div class="col-md-2">
+                            <label for="zip" class="form-label">Zip</label>
+                            <input type="number" class="form-control" name="fzip" id="zip" placeholder="12345">
+                          </div>
+                          <div class="col-md-4">
+                              <label for="tphone" class="form-label">Phone</label>
+                              <input type="tel" class="form-control" name="fphone" id="tphone" placeholder="123-456-7890">
+                            </div>
+                          <div class="col-md-4">
+                              <label for="emailA" class="form-label">Email</label>
+                              <input type="email" class="form-control" name="femail" id="emailA" placeholder="user@site.com">
+                          </div>
+                          <div class="col-md-4">
+                            <label for="age" class="form-label">Age</label>
+                            <select id="age" name="fage" class="form-select">
+                              <option selected>Choose...</option>
+                              <option>16 & Under</option>
+                              <option>17-34</option>
+                              <option>35-49</option>
+                              <option>50-64</option>
+                              <option>65 & Over</option>
+                            </select>
+                          </div>
+                          <div class="col-md-6">
+                            <label for="game" class="form-label">Game</label>
+                            <select id="game" name="game" class="form-select">
+                              <option selected>Choose...</option>
+                                {% for g in games %}
+                                <option>{{g['title']}}</option>
+                                {% endfor %}
+                            </select>
+                          </div>
+                          <div class="col-md-6">
+                            <label for="console" class="form-label">Console</label>
+                            <select id="console" name="console" class="form-select">
+                              <option selected>Choose...</option>
+                              {% for c in consoles %}
+                              <option>{{c['name']}}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                          <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Filter Customers</button>
+                          </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="container" id="entity">
+                <h2>Customers</h2>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped table-hover">
+                        <thead>
+                            <tr>
+                              <th scope="col">First</th>
+                              <th scope="col">Last</th>
+                              <th scope="col">Street</th>
+                              <th scope="col">City</th>
+                              <th scope="col">State</th>
+                              <th scope="col">Zip</th>
+                              <th scope="col">Phone</th>
+                              <th scope="col">Email</th>
+                              <th scope="col">Birthday</th>
+                              <th scope="col">Actions</th>
+                              <th scope="col">Rentals</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for id in customers %}
+                            <tr id="c101">
+                                <td>{{id["first_name"]}}</td>
+                                <td>{{id["last_name"]}}</td>
+                                <td>{{id["street"]}}</td>
+                                <td>{{id["city"]}}</td>
+                                <td>{{id["state"]}}</td>
+                                <td>{{id["zip_code"]}}</td>
+                                <td>{{id["phone"]}}</td>
+                                <td>{{id["email"]}}</td>
+                                <td>{{id["birthday"]}}</td>
+                                <td>
+                                    <div class="btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                                        <button class="btn btn-danger btn-sm" name='Delete' onclick="window.location = '/delete_customer/{{id["customer_ID"|e]}}'">Delete</button>
+                                        <button type="button" class="btn btn-warning btn-sm" onclick="window.location = '/update_customer/{{id["customer_ID"|e]}}'">Update</button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                                        <button type="button" class="btn btn-light btn-sm" onclick="show({{id['customer_ID']}})">View</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                    </table>
+                </div>
+                <div class="table-responsive" id="intermediate">
+                    <table class="table table-secondary table-striped" id="t01">
+                        <thead>
+                          <tr class="table-info">
+                            <th scope="col" colspan="7">Click "View" Above to See Games Rented by Each Customer!</th>
+                          </tr>
+                          <tr class="table-dark">
+                            <th scope="col" colspan="7">Games Rented</th>
+                          </tr>
+                          <tr class="table-dark">
+                            <th scope="col">Game</th>
+                            <th scope="col">Console</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Rented</th>
+                            <th scope="col">Due</th>
+                            <th scope="col">Date Paid</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                          <tbody id="gamerents">
+                            {% for info in items %}
+                            <tr class="rent{{info['customer']}}">
+                                <td>{{info['title']}}</td>
+                                <td>{{info['name']}}</td>
+                                <td>{{info['first_name']}} {{info['last_name']}}</td>
+                                <td>{{info['rent_date']}}</td>
+                                <td>{{info['due']}}</td>
+                                {% if info['paid'] is not none %}
+                                <td>{{info['paid']}}</td>
+                                {% else %}
+                                <td>Unpaid</td>
+                                {% endif %}
+                                <td>
+                                  <div class="btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                                    <button class="btn btn-danger btn-sm" name='Delete' onclick="window.location = '/delete_item/{{info["game_version"|e]}}/{{info["rental"|e]}}'">Remove</button>
+                                  </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                    </table>                       
+                </div>
+            </div>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <script src="{{url_for('static', filename='js/tables.js')}}"></script>
+    </body>
+</html>

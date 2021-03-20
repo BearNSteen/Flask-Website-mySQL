@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Rentals - PlayTest</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/tables.css')}}">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/index">PlayTest</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="games">Games</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="consoles">Consoles</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="rentals">Rentals</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="customers">Customers</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+        <main>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Add Rental
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form class="row g-3" action="/add_rental" method="post">
+                            <div class="col-md-6">
+                              <label for="customer" class="form-label">Customer</label>
+                              <select id="customer" class="form-select" name="customer">
+                                {% for person in customers %}
+                                <option>{{person['first_name']}} {{person['last_name']}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                            <div class="col-md-3">
+                              <label for="rent_date" class="form-label">Rental Date</label>
+                              <input type="date" class="form-control" name="rent_date" id="rent_date" placeholder="YYY-MM-DD">
+                            </div>
+                            <div class="col-md-3">
+                              <label for="paid" class="form-label">Paid</label>
+                              <input type="date" class="form-control" name="paid" id="paid" placeholder="YYY-MM-DD">
+                            </div>
+                            <div class="col-12">
+                              <button type="submit" class="btn btn-primary">Add Rental</button>
+                            </div>
+                          </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      Add Game to Rental
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <div class="alert alert-warning" role="alert">
+                        Customers younger than 17 cannot rent M rated Games! Out of stock games can also not be added.
+                      </div>
+                      <form class="row g-3" action="/add_item" method="post">
+                            <div class="col-md-3">
+                              <label for="copies" class="form-label">Game Copies</label>
+                              <select id="copies" class="form-select" name="copies">
+                                <option selected>Choose...</option>
+                                {% for gv in g_versions %}
+                                <option>{{gv['title']}}--{{gv['name']}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                            <div class="col-md-3">
+                              <label for="person" class="form-label">Rental Order</label>
+                              <select id="person" class="form-select" name="person">
+                                <option selected>Choose...</option>
+                                {% for person in people %}
+                                <option>{{person['first_name']}} {{person['last_name']}} on {{person['rent_date']}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                        <div class="col-12">
+                          <button type="submit" class="btn btn-primary">Add Game to Rental</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      Filter Rentals
+                    </button>
+                  </h2>
+                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <form class="row g-3" action="/filter_rentals" method="post">
+                          <div class="col-md-4">
+                              <label for="customer" class="form-label">First Name</label>
+                              <input type="text" class="form-control" name="ffirst" id="customer1" placeholder="John">
+                            </div>
+                            <div class="col-md-4">
+                              <label for="customer" class="form-label">Last Name</label>
+                              <input type="text" class="form-control" name="flast" id="customer2" placeholder="Doe">
+                            </div>
+                            <div class="col-md-4">
+                              <label for="rent_date" class="form-label">Rental Date</label>
+                              <input type="date" class="form-control" name="fdate"id="rent_date1" placeholder="2021-01-01">
+                            </div>
+                            <div class="col-md-4">
+                              <input class="form-check-input" type="checkbox" value="" id="unpaid" name="unpaid">
+                                    <label class="form-check-label" for="unpaid">
+                                    Unpaid?
+                                    </label>
+                            </div>
+                            <div class="col-md-4">
+                              <label for="gtitle" class="form-label">Game</label>
+                              <select id="gtitle" name="gtitle" class="form-select">
+                                <option selected>Choose...</option>
+                                  {% for g in games %}
+                                  <option>{{g['title']}}</option>
+                                  {% endfor %}
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <label for="cname" class="form-label">Console</label>
+                              <select id="cname" name="cname" class="form-select">
+                                <option selected>Choose...</option>
+                                {% for c in consoles %}
+                                <option>{{c['name']}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                        <div class="col-12">
+                          <button type="submit" class="btn btn-primary">Filter Rentals</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="container" id="entity">
+                <h2>Rentals</h2>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped table-hover">
+                        <thead>
+                            <tr>
+                              <th scope="col">Customer</th>
+                              <th scope="col">Rental Date</th>
+                              <th scope="col">Due Date</th>
+                              <th scope="col">Date Paid</th>
+                              <th scope="col">Items</th>
+                              <th scope="col">Item(s) Price</th>
+                              <th scope="col">Days Late</th>
+                              <th scope="col">Late Fee</th>
+                              <th scope="col">Total</th>
+                              <th scope="col">Actions</th>
+                              <th scope="col">Game Rentals</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for id in rentals %}
+                            <tr id="{{id['rental_ID']}}">
+                              <td>{{id["first_name"]}} {{id["last_name"]}}</td>
+                              <td>{{id["date"]}}</td>
+                              <td>{{id["due"]}}</td>
+                              {% if id["paid"] is not none %}
+                              <td>{{id["paid"]}}</td>
+                              {% else %}
+                              <td>Unpaid</td>
+                              {% endif %}
+                              <td>{{id["rentals"]}}</td>
+                              <td>${{'%0.2f'|format(id["cost"]|float)}}</td>
+                              <td>{{id["days_late"]|int}}</td>
+                              <td>${{'%0.2f'|format(id["late_fee"]|float)}}</td>
+                              <td>${{'%0.2f'|format(id["total"]|float)}}</td>
+                                <td>
+                                    <div class="btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                                        <button class="btn btn-danger btn-sm" name='Delete' onclick="window.location = '/delete_rental/{{id["rental_ID"|e]}}'">Delete</button>
+                                        <button type="button" class="btn btn-warning btn-sm" name="Update" onclick="window.location = '/update_rental/{{id["rental_ID"|e]}}'">Update</button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-light btn-sm" onclick="show({{id['rental_ID']}})">View</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="table-primary">
+                              <td scope="col" colspan="3"> </td>
+                              <td scope="col" colspan="5">($4.99 per game rented, $1.99 per day late)</td>
+                              <td scope="col" colspan="3"> </td>
+                            </tr>
+                          </tbody>
+                    </table>
+                </div>
+                <div class="table-responsive" id="intermediate">
+                    <table class="table table-secondary table-striped" id="t01">
+                        <thead>
+                          <tr class="table-info">
+                            <th scope="col" colspan="3">Click "View" Above to See Games for Each Rental!</th>
+                          </tr>
+                          <tr class="table-dark">
+                            <th scope="col" colspan="7">Games Rented</th>
+                          </tr>
+                          <tr class="table-dark">
+                            <th scope="col">Game</th>
+                            <th scope="col">Console</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                          <tbody id="gamerents">
+                            {% for info in items %}
+                            <tr class="rent{{info['rental']}}">
+                                <td>{{info['title']}}</td>
+                                <td>{{info['name']}}</td>
+                                <td>
+                                  <div class="btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                                    <button class="btn btn-danger btn-sm" name='Delete' onclick="window.location = '/delete_item/{{info["game_version"|e]}}/{{info["rental"|e]}}'">Remove</button>
+                                  </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <script src="{{url_for('static', filename='js/tables.js')}}"></script>
+    </body>
+</html>
